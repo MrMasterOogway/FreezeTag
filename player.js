@@ -1,41 +1,52 @@
 // Player 1 Functions
 class Player {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.w = 20;
-    this.h = 20;
-    this.xSpeed = 5;
-    this.ySpeed = 0;
-    this.a = 1;
-    this.col = "white";
-  }
-  move() {
-    // Move Horizontally on Key is Down
-    if (keyIsDown(LEFT_ARROW)) {
-      player1.x += -player1.xSpeed;
-    } else if (keyIsDown(RIGHT_ARROW)) {
-      player1.x += player1.xSpeed;
-    }
+	// Properties (State)
+	constructor(x, y, col, lk, rk, uk) {
+		this.x = x;
+		this.y = y;
+		this.w = 20;
+		this.h = 20;
+		this.xSpeed = 5;
+		this.ySpeed = 0;
+		this.a = 1;
+		this.col = col;
+		this.leftKey = lk;
+		this.rightKey = rk;
+		this.upKey = uk;
+		this.freeze = false;
+	}
 
-    // Move Vertically - Gravity
-    player1.y += player1.ySpeed; // Move Vertically
-    player1.ySpeed += player1.a; // Apply Gravity
-    if (player1.y + player1.h > height) {
-      // Land on Ground
-      player1.y = height - player1.h;
-    }
-  }
-  show() {
-    // Draw Player
-    noStroke();
-    fill(player1.col);
-    rect(player1.x, player1.y, player1.w, player1.h);
-  }
-  jump() {
-    // Jump on UP_ARROW
-    if (keyCode == UP_ARROW) {
-      player1.ySpeed = -20;
-    }
-  }
+	// Methods (Behaviour)
+	move() {
+		// Move Horizontally on Key is Down
+		if (this.freeze == false) {
+		if (keyIsDown(this.leftKey)) {
+			this.x += -this.xSpeed;
+		} else if (keyIsDown(this.rightKey)) {
+			this.x += this.xSpeed;
+		}
+
+		// Move Vertically - Gravity
+		this.y += this.ySpeed; // Move Vertically
+		this.ySpeed += this.a; // Apply Gravity
+		if (this.y + this.h > height) {
+			// Land on Ground
+			this.y = height - this.h;
+		}
+		}
+	}
+
+	show() {
+		// Draw Player
+		noStroke();
+		fill(this.col);
+		rect(this.x, this.y, this.w, this.h);
+	}
+
+	jump() {
+		// Jump on UP_ARROW
+		if (keyCode == this.upKey) {
+			this.ySpeed = -20;
+		}
+	}
 }
