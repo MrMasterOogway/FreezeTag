@@ -27,12 +27,8 @@ class Player {
 		}
 
 		// Move Vertically - Gravity
-		this.y += this.ySpeed; // Move Vertically
 		this.ySpeed += this.a; // Apply Gravity
-		if (this.y + this.h > height) {
-			// Land on Ground
-			this.y = height - this.h;
-		}
+		this.y += this.ySpeed; // Move Vertically
 		}
 	}
 
@@ -45,7 +41,7 @@ class Player {
 
 	jump() {
 		// Jump on UP_ARROW
-		if (keyCode == this.upKey) {
+		if (keyCode == this.upKey && this.ySpeed == 0) {
 			this.ySpeed = -20;
 		}
 	}
