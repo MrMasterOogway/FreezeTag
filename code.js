@@ -9,7 +9,24 @@ var gameState;
 var gameOverTimer;
 var stahp = 0;
 var score;
+var scTime = 0;
 var best = 0;
+var best1 = 0;
+var best2 = 0;
+var best3 = 0;
+var best4 = 0;
+var best5 = 0;
+var name;
+var name1 = "guy";
+var name2 = "guy";
+var name3 = "guy";
+var name4 = "guy";
+var name5 = "guy";
+var leader1;
+var leader2;
+var leader3;
+var leader4;
+var leader5;
 
 let GREY = 80;
 let RED = "#bb2a27";
@@ -37,7 +54,8 @@ function draw() {
 		gameOn();
 	  } else if (gameState == "gameOver") {
 		gameOver();
-	  }
+		}
+		scoreTime();
 }
 
 // EVENT FUNCTIONS

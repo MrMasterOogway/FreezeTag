@@ -13,6 +13,7 @@ function initGlobals() {
 	borderMap4 = new Border(0, 580, width, 20); // Floor
 
 	gameState = "start"; // or "gameOn" or "gameOver"
+	score = 0;
 }
 
 function gameOn() {
@@ -23,12 +24,36 @@ function gameOn() {
 
 	// DRAW
 	background(bg);
-	drawGameObjects();
+	drawGameOn();
 }
 
 function gameOver() {
-	setup();
+	bestscore();
 }
+
+function bestscore() {
+	if (stahp < 1) {
+	  stahp = 1
+	  name = prompt("Enter your name:");
+	}
+	if (score > best) {
+	  best = score;
+	}
+	gameState = "leaderboard"
+	leaderboard();
+  }
+
+  function scoreTime() {
+	  setInterval(atScore, 1000)
+  }
+
+  function atScore() {
+	  score = scTime + 1;
+
+	  if (score = 500) {
+		  setup();
+	  }
+  }
 
 function moveGameObjects() {
 	player1.move();
@@ -41,6 +66,9 @@ function moveGameObjects() {
 }
 
 function drawGameObjects() {
+	fill(255);
+	textSize(42);
+	text("CLICK TO START!", width - 600, height - 200);
 	player1.show();
 	player2.show();
 	player3.show();
@@ -55,230 +83,166 @@ function drawGameObjects() {
 	borderMap4.show();
 }
 
-function checkPcollsion() {
-	checkPlatformCollision(player1);
-	checkPlatformCollision(player2);
-	checkPlatformCollision(player3);
-}
+function drawGameOn() {
+	player1.show();
+	player2.show();
+	player3.show();
 
-function checkWcollsion() {
-	checkBorderCollision(player1);
-	checkBorderCollision(player2);
-	checkBorderCollision(player3);
-}
+	platform1.show();
+	platform2.show();
+	platform3.show();
 
-function checkPlatformCollision(aPlayer) {
-	// Check Player
-	if (rectIntersect(aPlayer, platform1) && aPlayer.ySpeed > 0) {
-		platform1.topCol = aPlayer.col;
-		aPlayer.y = platform1.y - aPlayer.h;
-		aPlayer.ySpeed = 0;
-	} else if (rectIntersect(aPlayer, platform2) && aPlayer.ySpeed > 0) {
-		platform2.topCol = aPlayer.col;
-		aPlayer.y = platform2.y - aPlayer.h;
-		aPlayer.ySpeed = 0;
-	} else if (rectIntersect(aPlayer, platform3) && aPlayer.ySpeed > 0) {
-		platform3.topCol = aPlayer.col;
-		aPlayer.y = platform3.y - aPlayer.h;
-		aPlayer.ySpeed = 0;
-	}
-	if (rectIntersect(aPlayer, platform1)) {
-		aPlayer.y = platform1.y + aPlayer.h;
-		aPlayer.ySpeed += aPlayer.a;
-	}
-	if (rectIntersect(aPlayer, platform2)) {
-		aPlayer.y = platform2.y + aPlayer.h;
-		aPlayer.ySpeed += aPlayer.a;
-	}
-	if (rectIntersect(aPlayer, platform3)) {
-		aPlayer.y = platform3.y + aPlayer.h;
-		aPlayer.ySpeed += aPlayer.a;
-	}
-}
-
-function checkBorderCollision(aPlayer) {
-	// Check Player
-	if (rectIntersect(aPlayer, borderMap4) && aPlayer.ySpeed > 0) {
-		// Floor
-		aPlayer.y = borderMap4.y - aPlayer.h;
-		aPlayer.ySpeed = 0;
-	} else if (rectIntersect(aPlayer, borderMap3)) {
-		// Right Wall
-		aPlayer.x = borderMap3.x - aPlayer.w;
-	} else if (rectIntersect(aPlayer, borderMap2)) {
-		// Left Wall
-		aPlayer.x = borderMap2.x + aPlayer.w;
-	} else if (rectIntersect(aPlayer, borderMap)) {
-		// Roof
-		aPlayer.y = borderMap.y + aPlayer.h;
-		aPlayer.ySpeed += aPlayer.a;
-	}
-}
-
-function playerCollsion() {
-	// Check Player Freeze
-	if (rectIntersect(player1, player2)) {
-		player2.freeze = true;
-	}
-	if (rectIntersect(player1, player3)) {
-		player3.freeze = true;
-	}
-
-	// Check Player unfreeze
-	if (rectIntersect(player2, player3)) {
-		player2.freeze = false;
-	}
-
-	if (player2.freeze == true && player3.freeze == true) {
-		gameState = "gameOver"
-	}
+	borderMap.show();
+	borderMap2.show();
+	borderMap3.show();
+	borderMap4.show();
 }
 
 function leaderboard() {
 	if (score > best1) {
-	  leader1 = (name + ": " + score)
-	  leader2 = (name1 + ": " + best1)
-	  leader3 = (name2 + ": " + best2)
-	  leader4 = (name3 + ": " + best3)
-	  leader5 = (name4 + ": " + best4)
-  
-	  text("Leaderboards", width - 600, height - 500);
-	  text("HISCORE1: " + leader1, width - 600, height - 450);
-	  text("HISCORE2: " + leader2, width - 600, height - 400);
-	  text("HISCORE3: " + leader3, width - 600, height - 350);
-	  text("HISCORE4: " + leader4, width - 600, height - 300);
-	  text("HISCORE5: " + leader5, width - 600, height - 250);
-  
-	  name5 = name4
-	  name4 = name3
-	  name3 = name2
-	  name2 = name1
-	  name1 = name
-  
-	  best5 = best4
-	  best4 = best3
-	  best3 = best2
-	  best2 = best1
-	  best1 = score
-  
-  
+		leader1 = (name + ": " + score)
+		leader2 = (name1 + ": " + best1)
+		leader3 = (name2 + ": " + best2)
+		leader4 = (name3 + ": " + best3)
+		leader5 = (name4 + ": " + best4)
+
+		text("Leaderboards", width - 600, height - 500);
+		text("HISCORE1: " + leader1, width - 600, height - 450);
+		text("HISCORE2: " + leader2, width - 600, height - 400);
+		text("HISCORE3: " + leader3, width - 600, height - 350);
+		text("HISCORE4: " + leader4, width - 600, height - 300);
+		text("HISCORE5: " + leader5, width - 600, height - 250);
+
+		name5 = name4
+		name4 = name3
+		name3 = name2
+		name2 = name1
+		name1 = name
+
+		best5 = best4
+		best4 = best3
+		best3 = best2
+		best2 = best1
+		best1 = score
+
+
 	} else if (score > best2) {
-	  leader1 = (name1 + ": " + best1)
-	  leader2 = (name + ": " + score)
-	  leader3 = (name2 + ": " + best2)
-	  leader4 = (name3 + ": " + best3)
-	  leader5 = (name4 + ": " + best4)
-  
-	  text("Leaderboards", width - 600, height - 500);
-	  text("HISCORE1:" + leader1, width - 600, height - 450);
-	  text("HISCORE2:" + leader2, width - 600, height - 400);
-	  text("HISCORE3:" + leader3, width - 600, height - 350);
-	  text("HISCORE4:" + leader4, width - 600, height - 300);
-	  text("HISCORE5:" + leader5, width - 600, height - 250);
-  
-	  name5 = name4
-	  name4 = name3
-	  name3 = name2
-	  name2 = name
-	  name1 = name1
-  
-	  best5 = best4
-	  best4 = best3
-	  best3 = best2
-	  best2 = score
-	  best1 = best1
-  
+		leader1 = (name1 + ": " + best1)
+		leader2 = (name + ": " + score)
+		leader3 = (name2 + ": " + best2)
+		leader4 = (name3 + ": " + best3)
+		leader5 = (name4 + ": " + best4)
+
+		text("Leaderboards", width - 600, height - 500);
+		text("HISCORE1:" + leader1, width - 600, height - 450);
+		text("HISCORE2:" + leader2, width - 600, height - 400);
+		text("HISCORE3:" + leader3, width - 600, height - 350);
+		text("HISCORE4:" + leader4, width - 600, height - 300);
+		text("HISCORE5:" + leader5, width - 600, height - 250);
+
+		name5 = name4
+		name4 = name3
+		name3 = name2
+		name2 = name
+		name1 = name1
+
+		best5 = best4
+		best4 = best3
+		best3 = best2
+		best2 = score
+		best1 = best1
+
 	} else if (score > best3) {
-	  leader1 = (name1 + ": " + best1)
-	  leader2 = (name2 + ": " + best2)
-	  leader3 = (name + ": " + score)
-	  leader4 = (name3 + ": " + best3)
-	  leader5 = (name4 + ": " + best4)
-  
-	  text("Leaderboards", width - 600, height - 500);
-	  text("HISCORE1:" + leader1, width - 600, height - 450);
-	  text("HISCORE2:" + leader2, width - 600, height - 400);
-	  text("HISCORE3:" + leader3, width - 600, height - 350);
-	  text("HISCORE4:" + leader4, width - 600, height - 300);
-	  text("HISCORE5:" + leader5, width - 600, height - 250);
-  
-	  name5 = name4
-	  name4 = name3
-	  name3 = name
-	  name2 = name2
-	  name1 = name1
-  
-	  best5 = best4
-	  best4 = best3
-	  best3 = score
-	  best2 = best2
-	  best1 = best1
-  
+		leader1 = (name1 + ": " + best1)
+		leader2 = (name2 + ": " + best2)
+		leader3 = (name + ": " + score)
+		leader4 = (name3 + ": " + best3)
+		leader5 = (name4 + ": " + best4)
+
+		text("Leaderboards", width - 600, height - 500);
+		text("HISCORE1:" + leader1, width - 600, height - 450);
+		text("HISCORE2:" + leader2, width - 600, height - 400);
+		text("HISCORE3:" + leader3, width - 600, height - 350);
+		text("HISCORE4:" + leader4, width - 600, height - 300);
+		text("HISCORE5:" + leader5, width - 600, height - 250);
+
+		name5 = name4
+		name4 = name3
+		name3 = name
+		name2 = name2
+		name1 = name1
+
+		best5 = best4
+		best4 = best3
+		best3 = score
+		best2 = best2
+		best1 = best1
+
 	} else if (score > best4) {
-	  leader1 = (name1 + ": " + best1)
-	  leader2 = (name2 + ": " + best2)
-	  leader3 = (name3 + ": " + best3)
-	  leader4 = (name + ": " + score)
-	  leader5 = (name4 + ": " + best4)
-  
-	  text("Leaderboards", width - 600, height - 500);
-	  text("HISCORE1:" + leader1, width - 600, height - 450);
-	  text("HISCORE2:" + leader2, width - 600, height - 400);
-	  text("HISCORE3:" + leader3, width - 600, height - 350);
-	  text("HISCORE4:" + leader4, width - 600, height - 300);
-	  text("HISCORE5:" + leader5, width - 600, height - 250);
-  
-	  name5 = name4
-	  name4 = name
-	  name3 = name3
-	  name2 = name2
-	  name1 = name1
-  
-	  best5 = best4
-	  best4 = score
-	  best3 = best3
-	  best2 = best2
-	  best1 = best1
-  
+		leader1 = (name1 + ": " + best1)
+		leader2 = (name2 + ": " + best2)
+		leader3 = (name3 + ": " + best3)
+		leader4 = (name + ": " + score)
+		leader5 = (name4 + ": " + best4)
+
+		text("Leaderboards", width - 600, height - 500);
+		text("HISCORE1:" + leader1, width - 600, height - 450);
+		text("HISCORE2:" + leader2, width - 600, height - 400);
+		text("HISCORE3:" + leader3, width - 600, height - 350);
+		text("HISCORE4:" + leader4, width - 600, height - 300);
+		text("HISCORE5:" + leader5, width - 600, height - 250);
+
+		name5 = name4
+		name4 = name
+		name3 = name3
+		name2 = name2
+		name1 = name1
+
+		best5 = best4
+		best4 = score
+		best3 = best3
+		best2 = best2
+		best1 = best1
+
 	} else if (score > best5) {
-	  leader1 = (name1 + ": " + best1)
-	  leader2 = (name2 + ": " + best2)
-	  leader3 = (name3 + ": " + best3)
-	  leader4 = (name4 + ": " + best4)
-	  leader5 = (name + ": " + score)
-  
-	  text("Leaderboards", width - 600, height - 500);
-	  text("HISCORE1:" + leader1, width - 600, height - 450);
-	  text("HISCORE2:" + leader2, width - 600, height - 400);
-	  text("HISCORE3:" + leader3, width - 600, height - 350);
-	  text("HISCORE4:" + leader4, width - 600, height - 300);
-	  text("HISCORE5:" + leader5, width - 600, height - 250);
-  
-	  name5 = name
-	  name4 = name4
-	  name3 = name3
-	  name2 = name2
-	  name1 = name1
-  
-	  best5 = score
-	  best4 = best4
-	  best3 = best3
-	  best2 = best2
-	  best1 = best1
-  
+		leader1 = (name1 + ": " + best1)
+		leader2 = (name2 + ": " + best2)
+		leader3 = (name3 + ": " + best3)
+		leader4 = (name4 + ": " + best4)
+		leader5 = (name + ": " + score)
+
+		text("Leaderboards", width - 600, height - 500);
+		text("HISCORE1:" + leader1, width - 600, height - 450);
+		text("HISCORE2:" + leader2, width - 600, height - 400);
+		text("HISCORE3:" + leader3, width - 600, height - 350);
+		text("HISCORE4:" + leader4, width - 600, height - 300);
+		text("HISCORE5:" + leader5, width - 600, height - 250);
+
+		name5 = name
+		name4 = name4
+		name3 = name3
+		name2 = name2
+		name1 = name1
+
+		best5 = score
+		best4 = best4
+		best3 = best3
+		best2 = best2
+		best1 = best1
+
 	} else {
-	  leader1 = (name1 + ": " + best1)
-	  leader2 = (name2 + ": " + best2)
-	  leader3 = (name3 + ": " + best3)
-	  leader4 = (name4 + ": " + best4)
-	  leader5 = (name5 + ": " + best5)
-  
-	  text("Leaderboards", width - 600, height - 500);
-	  text("HISCORE1:" + leader1, width - 600, height - 450);
-	  text("HISCORE2:" + leader2, width - 600, height - 400);
-	  text("HISCORE3:" + leader3, width - 600, height - 350);
-	  text("HISCORE4:" + leader4, width - 600, height - 300);
-	  text("HISCORE5:" + leader5, width - 600, height - 250);
+		leader1 = (name1 + ": " + best1)
+		leader2 = (name2 + ": " + best2)
+		leader3 = (name3 + ": " + best3)
+		leader4 = (name4 + ": " + best4)
+		leader5 = (name5 + ": " + best5)
+
+		text("Leaderboards", width - 600, height - 500);
+		text("HISCORE1:" + leader1, width - 600, height - 450);
+		text("HISCORE2:" + leader2, width - 600, height - 400);
+		text("HISCORE3:" + leader3, width - 600, height - 350);
+		text("HISCORE4:" + leader4, width - 600, height - 300);
+		text("HISCORE5:" + leader5, width - 600, height - 250);
 	}
-	gameState = "gameDone"
-  }
+	setTimeout(initGlobals, 5000);
+}
