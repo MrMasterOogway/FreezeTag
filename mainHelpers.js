@@ -44,13 +44,16 @@ function bestscore() {
   }
 
   function scoreTime() {
-	  setInterval(atScore, 1000)
+	  atScore();
   }
 
   function atScore() {
-	  score = scTime + 1;
+	if (frameCount % 60 == 0 && timer > 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+		timer ++;
+	}
+	  score = timer;
 
-	  if (score = 500) {
+	  if (score == 500) {
 		  setup();
 	  }
   }
@@ -244,5 +247,5 @@ function leaderboard() {
 		text("HISCORE4:" + leader4, width - 600, height - 300);
 		text("HISCORE5:" + leader5, width - 600, height - 250);
 	}
-	setTimeout(initGlobals, 5000);
+	setup();
 }

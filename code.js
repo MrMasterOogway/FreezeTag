@@ -5,6 +5,8 @@ let player1, player2, player3;
 let platform1, platform2, platform3;
 let borderMap, borderMap2, borderMap3, borderMap4;
 
+let timer = 1;
+
 var gameState;
 var gameOverTimer;
 var stahp = 0;
@@ -50,12 +52,12 @@ function setup() {
 function draw() {
 	if (gameState == "start") {
 		drawGameObjects();
-	  } else if (gameState == "gameOn") {
+	} else if (gameState == "gameOn") {
 		gameOn();
-	  } else if (gameState == "gameOver") {
+	} else if (gameState == "gameOver") {
 		gameOver();
-		}
-		scoreTime();
+	}
+	scoreTime();
 }
 
 // EVENT FUNCTIONS
@@ -67,8 +69,8 @@ function keyPressed() {
 
 function mousePressed() {
 	if (gameState == "start") {
-	  gameState = "gameOn";
+		gameState = "gameOn";
 	} else if (gameState == "gameDone") {
-	  initGlobals();
+		initGlobals();
 	}
-  }
+}
