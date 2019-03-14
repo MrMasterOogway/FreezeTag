@@ -1,78 +1,38 @@
-function checkPcollsion() {
-	checkPlatformCollision(player1);
-	checkPlatformCollision(player2);
-	checkPlatformCollision(player3);
-}
+function checkCollision() {
+    // Check for collision w/ ceiling & floor
+    if (player1.y > 581) {
+        player1.y = 580;
+    }
+    if (player1.y < 0) {
+        player1.y = 1;
+    }
+    if (player1.x > 781) {
+        player1.x = 780;
+    }
+    if (player1.x < 0) {
+        player1.x = 1;
+    }
+    // Check collision with players
+    
+    if (player1.x > player2.x && player1.x < player2.x + player2.w &&
+      player1.y + 20 > player2.y && player1.y - 20 < player2.y + player2.h) {
+          player2.freeze = true
+      }
 
-function checkWcollsion() {
-	checkBorderCollision(player1);
-	checkBorderCollision(player2);
-	checkBorderCollision(player3);
-}
+      if (player1.x > player3.x && player1.x < player3.x + player3.w &&
+        player1.y + 20 > player3.y && player1.y - 20 < player3.y + player3.h) {
+            player3.freeze = true
+        }
 
-function checkPlatformCollision(aPlayer) {
-	// Check Player
-	if (rectIntersect(aPlayer, platform1) && aPlayer.ySpeed > 0) {
-		platform1.topCol = aPlayer.col;
-		aPlayer.y = platform1.y - aPlayer.h;
-		aPlayer.ySpeed = 0;
-	} else if (rectIntersect(aPlayer, platform2) && aPlayer.ySpeed > 0) {
-		platform2.topCol = aPlayer.col;
-		aPlayer.y = platform2.y - aPlayer.h;
-		aPlayer.ySpeed = 0;
-	} else if (rectIntersect(aPlayer, platform3) && aPlayer.ySpeed > 0) {
-		platform3.topCol = aPlayer.col;
-		aPlayer.y = platform3.y - aPlayer.h;
-		aPlayer.ySpeed = 0;
-	}
-	if (rectIntersect(aPlayer, platform1)) {
-		aPlayer.y = platform1.y + aPlayer.h;
-		aPlayer.ySpeed += aPlayer.a;
-	}
-	if (rectIntersect(aPlayer, platform2)) {
-		aPlayer.y = platform2.y + aPlayer.h;
-		aPlayer.ySpeed += aPlayer.a;
-	}
-	if (rectIntersect(aPlayer, platform3)) {
-		aPlayer.y = platform3.y + aPlayer.h;
-		aPlayer.ySpeed += aPlayer.a;
-	}
-}
+        if (player1.x > player4.x && player1.x < player4.x + player4.w &&
+            player1.y + 20 > player4.y && player1.y - 20 < player4.y + player4.h) {
+                player4.freeze = true
+            }
 
-function checkBorderCollision(aPlayer) {
-	// Check Player
-	if (rectIntersect(aPlayer, borderMap4) && aPlayer.ySpeed > 0) {
-		// Floor
-		aPlayer.y = borderMap4.y - aPlayer.h;
-		aPlayer.ySpeed = 0;
-	} else if (rectIntersect(aPlayer, borderMap3)) {
-		// Right Wall
-		aPlayer.x = borderMap3.x - aPlayer.w;
-	} else if (rectIntersect(aPlayer, borderMap2)) {
-		// Left Wall
-		aPlayer.x = borderMap2.x + aPlayer.w;
-	} else if (rectIntersect(aPlayer, borderMap)) {
-		// Roof
-		aPlayer.y = borderMap.y + aPlayer.h;
-		aPlayer.ySpeed += aPlayer.a;
-	}
-}
+    // if (heli.x + 34 > wall2.x && heli.x < wall2.x + wall2.w &&
+    //   heli.y + 20.5 > wall2.y && heli.y - 20.5 < wall2.y + wall2.h) {
+    //   shield = shield - 1;
+    //   wall2.y = wall2.y + 1000;
+    // }
 
-function playerCollsion() {
-	// Check Player Freeze
-	if (rectIntersect(player1, player2)) {
-		player2.freeze = true;
-	}
-	if (rectIntersect(player1, player3)) {
-		player3.freeze = true;
-	}
-
-	// Check Player unfreeze
-	if (rectIntersect(player2, player3)) {
-		player2.freeze = false;
-	}
-
-	if (player2.freeze == true && player3.freeze == true) {
-		gameState = "gameOver"
-	}
 }
